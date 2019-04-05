@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tweeter</title>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.4/fullpage.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.4/fullpage.js" type="text/javascript"></script>
+		
+		<style>
+			body {
+				font-family: "Segoe UI", Arial, sans-serif;
+				box-sizing: border-box;
+				background: #E6ECF0;
+				line-height: 20px;
+			}
+		
+			.topbar {
+				position: fixed;
+				top: 0;
+				right: 0;
+				left: 0;
+				z-index: 1000;
+				border-bottom: 1px solid #66757F;
+				box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+				text-align: center;
+				margin: 0 auto;
+				background: white;
+			}
+			
+			a {
+				cursor: pointer;
+				user-select: none;
+			}
+			
+			ul {
+				margin: 0;
+				list-style: none;
+				padding: 0;
+			}
+			
+			.nav {
+				max-width: 900px;
+			}
+			
+			.nav > li {
+				display: inline-block;
+				float: left;
+				margin-top: 12px;
+				margin-bottom: 4px;
+				margin-left: 5px;
+				text-align: left;
+			}
+			
+			.nav > li > a {
+				display: inline-block;
+				padding: 0 14px 0 14px;
+				text-decoration: none;
+				color: #66757F;
+				overflow: hidden;
+			}
+			
+			.nav > li > a .text {
+				display: inline-block;
+				font-weight: bold;
+				font-size: 14px;
+				border-bottom: 2px solid transparent;
+				transition: all 0.15s ease-in-out;
+			}
+			
+			.nav > li > a .text:hover, .nav > li.active > a .text {
+				border-bottom: 2px solid #1DA1F2;
+			}
+			
+			.nav > li > a:hover, .nav > li.active > a {
+				color: #1DA1F2;
+			}
+			
+			
+			#fullpage {
+				z-index: 0;
+				margin-top: 58px;
+				transform: translateY(-50px);
+			}
+			
+			#fullpage.entered {
+				transition: transform 0.7s ease;
+				transform: translateY(0);
+			}
+			
+			.section {
+				background: #E6ECF0;
+			}
+			
+			.wrapper {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-bottom: 1px solid #E6ECF0;
+			}
+			
+			.tweet {
+				background: white;
+				width: 590px;
+				padding: 9px 12px;
+				cursor: pointer;
+				min-height: 48px;
+				font-size: 14px;
+				
+				opacity: 0;
+				transition: all 0.7s ease;
+			}
+			
+			.tweet:hover {
+				background-color: #f5f8fa;
+			}
+			
+			.tweet.entered {
+				opacity: 1;
+			}
+			
+			.tweet > * {
+				margin-left: 58px;
+			}
+			
+			.tweet-header {
+				display: flex;
+			}
+			
+			.avatar {
+				width: 48px;
+				height: 48px;
+				border-radius: 50%;
+				position: absolute;
+				margin-left: -58px;
+			}
+			
+			.account-group {
+				display: inline-flex;
+			}
+			
+			.account-group > * {
+				margin-right: 3px;
+			}
+			
+			.fullname {
+				font-weight: bold;
+				height: min-content;
+			}
+			
+			.fullname:hover {
+				text-decoration: underline;
+				color: #1DA1F2;
+			}
+			
+			.verified {
+				display: inline;
+				margin-top: 2px;
+			}
+			
+			.username, .time {
+				color: #657786;
+			}
+			
+			.middot {
+				margin-left: 2px;
+				margin-right: 4px;
+			}
+			
+			#fp-nav > ul > li > a > span {
+				background: #1DA1F2;
+			}
+		</style>
+		
+		<script>
+			{
+				let el = (type, className, parent = null) => {
+					let e = document.createElement(type);
+					e.classList.add(className);
+					
+					if (parent) {
+						parent.appendChild(e);
+					}
+					return e;
+				};
+				let div = (className, parent, content = "") => {
+					let e = el("div", className, parent);
+					e.textContent = content;
+					return e;
+				};
+				let span = (className, parent, content = "") => {
+					let e = el("span", className, parent);
+					e.textContent = content;
+					return e;
+				};
+				let img = (className, parent, src = "", size = 15) => {
+					let e = el("img", className, parent);
+					e.src = src;
+					e.width = size;
+					e.height = size;
+					return e;
+				};
+				
+				let userList = [];
+				
+				window.tweeter = {
+					users: {
+						push: (handle,  fullname = "--", verified = false, profileExtension = ".png") => {
+							userList.push({handle: handle, fullname: fullname, verified: verified, profileExtension: profileExtension});
+						},
+						find: (handle) => {
+							let result = userList.find((user) => user.handle == handle);
+							if (result) {
+								return result;
+							}
+							return {
+								handle: handle,
+								fullname: "--",
+								verified: false,
+								profileExtension: ".png",
+							};
+						},
+					},
+					
+					tweet: (handle, tweetBody = "...", time = "2h") => {
+						let user = tweeter.users.find(handle);
+						
+						let fullpage = document.getElementById("fullpage");
+						if (!fullpage) {
+							return;
+						}
+						
+						let section = div("section");
+						fullpage.insertBefore(section, fullpage.firstChild);
+						
+						let wrapper = div("wrapper", section);
+						let body = div("tweet", wrapper);
+						let header = div("tweet-header", body);
+						img("avatar", header, "img/profile/" + handle + user.profileExtension, 48);
+						let accGroup = div("account-group", header);
+						span("fullname", accGroup, user.fullname);
+						
+						if (user.verified) {
+							img("verified", accGroup, "img/icon/check.png", 15);
+						}
+						
+						span("username", accGroup, "@" + handle);
+						span("middot", accGroup, "\u00B7");
+						span("time", accGroup, time);
+						
+						div("tweet-body", body, tweetBody);
+						
+						fullpage.classList.remove("entered");
+						setTimeout(() => {
+							body.classList.add("entered");
+							fullpage.classList.add("entered");
+						}, 0);
+					},
+				};
+				
+				// Load the test users.
+				tweeter.users.push("Cmdr_Hadfield", "Chris Hadfield", true);
+				tweeter.users.push("JustinTrudeau", "Justin Trudeau", true, ".jpg");
+				tweeter.users.push("SchatzEd", "Edward Schatz", false, ".jpg");
+				
+				// TODO fix weird jump when a tweet is added
+			};
+		</script>
+	</head>
+	<body>
+		<div class="topbar">
+			<a>
+				<img src="img/icon/logo.png" style="display: inline" width="37"/>
+			</a>
+			<div role="navigation" style="display: inline-block;">
+				<ul class="nav js-global-actions" id="global-actions">
+					<li id="global-nav-home" class="home active" data-global-action="home">
+						<a class="js-nav js-tooltip js-dynamic-tooltip" data-placement="bottom" data-component-context="home_nav" data-nav="home">
+						  <span class="text" aria-hidden="true">Home</span>
+						</a>
+					</li>
+					<li class="moments js-moments-tab " data-global-action="moments">
+						<a role="button" class="js-nav js-tooltip js-dynamic-tooltip" data-component-context="moments_nav" data-nav="moments" data-placement="bottom">
+						  <span class="text" aria-hidden="true">Moments</span>
+						</a>
+					</li>
+					<li class="people notifications" data-global-action="connect">
+						<a class="js-nav js-tooltip js-dynamic-tooltip" data-placement="bottom" data-component-context="connect_nav" data-nav="connect">
+						  <span class="text" aria-hidden="true">Notifications</span>
+						</a>
+					</li>
+					<li class="dm-nav">
+						<a role="button" class="js-tooltip js-dynamic-tooltip global-dm-nav" data-placement="bottom">
+						  <span class="text">Messages</span>
+						</a>
+					</li>
+			  </ul>
+			</div>
+		</div>
+		
+		<div id="fullpage"></div>
+		
+		<script>
+			/*new fullpage("#fullpage", {
+				autoScrolling: true,
+				navigation: true,
+				anchors: ["1", "2", "3", "4"]
+			});*/
+		</script>
+	</body>
+</html>
