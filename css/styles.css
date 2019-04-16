@@ -111,7 +111,7 @@ ul {
 }
 
 .tweet:hover {
-	background-color: #f5f8fa;
+	background-color: #F5F8FA;
 }
 
 .tweet.entered {
@@ -171,6 +171,13 @@ ul {
 
 #fp-nav > ul > li > a > span {
 	background: #1DA1F2;
+}
+
+
+.reply-text {
+	display: inline-block;
+	margin: 3px 0;
+	color: #657786;
 }
 
 
@@ -274,4 +281,35 @@ ul {
 .icon-dm::after {
 	content: "\f054";
 	font-family: "edgeicons";
+}
+
+
+#tip {
+	background: #1DA1F2;
+	width: fit-content;
+	padding: 14px;
+	font-size: 14px;
+	line-height: 1;
+	position: fixed;
+	left: 7px;
+	bottom: 7px;
+	box-shadow: 0px 5px 10px 0px #00000044;
+	opacity: 1;
+	transition: opacity 0.5s ease, transform 0.5s ease;
+	cursor: pointer;
+}
+
+#tip.hidden {
+	opacity: 0;
+	transform: translateY(-20px);
+	pointer-events: none;
+}
+
+.action-link {
+	text-decoration: underline;
+	margin-left: 2ch;
+}
+
+.action-link:hover {
+	color: white;
 }
