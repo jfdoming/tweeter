@@ -120,6 +120,7 @@
 	tweeter.schedule("yaaoouuuuda99", "New York is with you Berlin #HumanLivesMatter #BerlinForHumans", REACTIVE);
 	tweeter.schedule("babybear_alex77", "Toronto is with you Berlin #HumanLivesMatter #BerlinForHumans #FTheRobots", REACTIVE);
 	tweeter.schedule("ItsChelsea957", "Androids should burn in hell before we give them rights #ParisForBerlin #HumanLivesMatter #BerlinForHumans", X2_REACTIVE);
+	tweeter.schedule("paypay_8029", "I don't understand why all these machines are being put into jobs hard-working Americans used to do. This is why we have a job crisis!", REACTIVE, ["CBCNews"]);
 	tweeter.schedule("CBCNews", "Interesting new opinion piece by Dr. Tred Carr-Phully", TRIGGERING, [], "opinion");
 	tweeter.schedule("mattyj_23", "This is ridiculous. We should be defending our own people from having our jobs STOLEN by the BAD and EVIL robot minority groups.", REACTIVE, ["CBCNews"]);
 	tweeter.schedule("AndroidVoice", "*** @jenny_from_the_block_4673 @jshmoe999 @yaaoouuuuda99 You need to accept us. We are people. We matter. Treat us with respect. #AndroidLivesMatter ***", TRIGGERING);
