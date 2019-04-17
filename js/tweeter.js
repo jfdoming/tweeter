@@ -32,7 +32,7 @@
 		};
 		
 		visibleTweets.forEach((t) => {
-			if (now - t.eTime > 1000) {
+			if (now - t.eTime > 2000) {
 				++t.time;
 				t.eTime = now;
 				
@@ -108,8 +108,14 @@
 		e.textContent = content;
 		return e;
 	};
-	let img = (className, parent, src = "", size = null) => {
+	let img = (className, parent, src = "", size = null, useErrorImg = false) => {
 		let e = el("img", className, parent);
+		
+		if (useErrorImg) {
+			e.addEventListener("error", () => {
+				e.src = "img/profile/default.png";
+			});
+		}
 		e.src = src;
 		
 		if (size) {
@@ -127,6 +133,10 @@
 		let action = span(["tweet-footer-action", "tweet-footer-action-" + name], parent);
 		icon(["tweet-footer-icon", "icon-" + name], action);
 		span("tweet-footer-label", action, text);
+		
+		action.addEventListener("click", () => {
+			action.classList.add("clicked");
+		});
 		return action;
 	};
 	
@@ -192,7 +202,7 @@
 			},
 		},
 		
-		tweet: (handle, tweetBodyText = "...", embedUrl = "", timerParams = {}, replyUsers = []) => {
+		tweet: (handle, tweetBodyText = "...", timerParams = {}, replyUsers = [], embedUrl = "") => {
 			let user = tweeter.users.find(handle);
 			
 			let fullpage = document.getElementById("fullpage");
@@ -223,8 +233,6 @@
 			tweetObj.comments = 0;
 			tweetObj.retweets = 0;
 			tweetObj.likes = 0;
-			console.log(tweetObj);
-			console.log(timerParams);
 			
 			let section = div("section");
 			fullpage.insertBefore(section, fullpage.firstChild);
@@ -232,7 +240,7 @@
 			let wrapper = div("wrapper", section);
 			let body = div("tweet", wrapper);
 			let header = div("tweet-header", body);
-			img("avatar", header, "img/profile/" + handle + user.profileExtension, 48);
+			img("avatar", header, "img/profile/" + handle + user.profileExtension, 48, true);
 			let accGroup = div("account-group", header);
 			span("fullname", accGroup, user.fullname);
 			
@@ -262,8 +270,14 @@
 				let embed = tweeter.embeds.find(embedUrl);
 			
 				let tweetEmbed = div("tweet-embed", tweetBody);
-				img("tweet-embed-preview", tweetEmbed, embed.imgSource);
-				let tweetEmbedBody = div("tweet-embed-body", tweetEmbed);
+				
+				let tweetEmbedBody = null;
+				if (embed.imgSource) {
+					img("tweet-embed-preview", tweetEmbed, embed.imgSource);
+					tweetEmbedBody = div("tweet-embed-body", tweetEmbed);
+				} else {
+					tweetEmbedBody = div(["tweet-embed-body", "tweet-embed-body-full"], tweetEmbed);
+				}
 				span("tweet-embed-title", tweetEmbedBody, embed.title)
 				span("tweet-embed-description", tweetEmbedBody, embed.description);
 				div("tweet-embed-url", tweetEmbedBody, embed.url);

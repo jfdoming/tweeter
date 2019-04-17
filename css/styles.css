@@ -208,6 +208,10 @@ ul {
 	margin: 5px 14px 10px 14px;
 }
 
+.tweet-embed-body-full {
+	margin: 10px 14px;
+}
+
 .tweet-embed-title {
 	display: block;
 	font-weight: bold;
@@ -253,7 +257,7 @@ ul {
 	color: #17BF63;
 }
 
-.tweet-footer-action-heart:hover {
+.tweet-footer-action-heart:hover, .tweet-footer-action-heart.clicked {
 	color: #E0245E;
 }
 
