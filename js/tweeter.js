@@ -147,7 +147,7 @@
 	let tweetSchedule = [];
 	
 	document.addEventListener("keypress", (e) => {
-		if (e.code == "Space") {
+		if (e.code == "Space" || e.key == " " || e.keyCode == 32) {
 			if (tweetSchedule.length <= 0) {
 				return;
 			}
