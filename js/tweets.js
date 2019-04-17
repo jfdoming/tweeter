@@ -125,4 +125,5 @@
 	tweeter.schedule("mattyj_23", "This is ridiculous. We should be defending our own people from having our jobs STOLEN by the BAD and EVIL robot minority groups.", REACTIVE, ["CBCNews"]);
 	tweeter.schedule("AndroidVoice", "*** @jenny_from_the_block_4673 @jshmoe999 @yaaoouuuuda99 You need to accept us. We are people. We matter. Treat us with respect. #AndroidLivesMatter ***", TRIGGERING);
 	tweeter.schedule("MontgStef", "Hell no. WE OWN YOU. We made you what you are. You owe US your eternal servitude. #AndroidLivesDontMatter #HumanLivesMatter", REACTIVE, ["AndroidVoice"]);
+	tweeter.schedule("42", "The end.", SCARY);
 })(window.tweeter);

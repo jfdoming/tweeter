@@ -148,11 +148,12 @@
 	
 	document.addEventListener("keypress", (e) => {
 		if (e.code == "Space" || e.key == " " || e.keyCode == 32) {
+			e.preventDefault();
+			
 			if (tweetSchedule.length <= 0) {
 				return;
 			}
 			
-			e.preventDefault();
 			let scheduledTweet = tweetSchedule.shift();
 			tweeter.tweet(...scheduledTweet);
 		}

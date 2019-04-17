@@ -16,6 +16,9 @@
 	tweeter.users.push("babybear_alex77", "Alexia Hernandez", false);
 	tweeter.users.push("yaaoouuuuda99", "Patrick", false, ".jpg");
 	tweeter.users.push("paypay_8029", "Paytyn Anne-Midgeley", false);
-	tweeter.users.push("mattyj_23", "Mathhieu Jameson", false);
+	tweeter.users.push("mattyj_23", "Matthieu Jameson", false);
 	tweeter.users.push("AndroidVoice", "Android Collective", true);
+	
+	// Load the "end" user.
+	tweeter.users.push("42", "The End", true);
 })(window.tweeter);
