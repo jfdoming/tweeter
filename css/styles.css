@@ -1,7 +1,7 @@
 @font-face {
     font-family: "edgeicons";
-    src: url("../font/edge-icons-Regular.eot");
-    src: url("../font/edge-icons-Regular.eot?#iefix") format("embedded-opentype"), url("../font/edge-icons-Regular.woff") format("woff"), url("../font/edge-icons-Regular.ttf") format("truetype")
+    src: url("font/edge-icons-Regular.eot");
+    src: url("font/edge-icons-Regular.eot?#iefix") format("embedded-opentype"), url("../font/edge-icons-Regular.woff") format("woff"), url("../font/edge-icons-Regular.ttf") format("truetype")
 }
 
 
